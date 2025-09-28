@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "respaldosrifas",
+  "private_key_id": "93686eb15b600d3bb138eff7893841a61249562f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDBR+QHSTjqCgJ8\n7koiOK1CvtaXUA86AVE2xxJPgJbXxIXOFywLL8JvCG0USIOVPJMgKJLQul1AaLsh\nYYMTauesAax02zdI9hiM4uYE+iYsCPRRaQPZH+Qfcn65jeOTkGXwcg5ngEhw6vKS\n0JL8XZnGQdkzmQi4cVGN+G6VyP/bNf0ks8lpnrlUPok+LC3TlicicEJTuChR5rXP\nE5sW0vykb5FwNHDAM+Vv31fI8rK0/sN2DOD/aW5o7+uWGj07PiIjd7XzzLG/AsVW\nxg+ML+DVDiyOg3BchnNS4usHr/ny94QRYpE14Fz7zai0Qcu0r3XuPwsT+84Sh8Qi\nV9F4tbU5AgMBAAECggEAJBErwpZN2hKLG1AGInOsFT/yYGMOrFbRlmS4jIBk5Zel\nFmupit7bLAgI/td3QnJ+y+n2V5/nRd0lSlndcVKqL6VSTq4Xl3Rg6W1v2e7qD56O\nJODxWGOEmL+vWSXamU9BToiiGntMSVH2eSIVw6UdzGq+QswkXfK7csAwtp++6uNJ\nqnF8GdVw9adVEqKFWPu30qDuhhLKQH35gN7jAQCFfkSqnIdbRhIEN81a7qHYj+4W\nLSjS3ubSQ2cFhrvQsG1DdiGGztPxQeC8vEPNQZIuEZRxudNYE0x5ud+jdfRpZ58J\nfyGu21xTfd0j4Qe35TyL7x9wl+CjqW+tlf2imbRrmQKBgQDmtU2VVasBr1JZ6x7W\nk70qOxPs8AuDrLUokXGcByfAgPBWXN0p61KMqroUkftXmkz1WSUYyQ0Z54GWL6T3\n1uaFMN1cSCs1sG50c6AOKjzDPP+jqCK8wqqpwepI7deJ0+GJOB3Pf8Zg6oCvw1uE\nm3MoGGcBEVzZWgswy0976TDzdQKBgQDWeDV4cunkxhW2D2/EonjWFjQQ1W2baxw4\nmfhzw9QAg/PvSJhZ3HZfhlhVirPtOKLV99VEJuBvS43RfFNvO2CbK6qggBBiw2Cx\nXg5EVuX82W4jybVjV0e09f8llu7m6ltcHD1rf3Zq10rnyxeuX1djRGTHDKdGpppM\nyCOruWJWNQKBgQCjKUPmQkD/nwuBtkwH+1JEJKXx4s5x4Fn6h+ouK81MUqQmn+R1\n+gxWmYOiep+kE+creVFIFyBh2p2GJsnn0Z8UQTu8QPn2LYHgb8mZWvvAJEqzZnyy\nvIXQKulTjInr2uJdlkdW8YnODurV4za9MOcfSyrF0Y611P2nE5JyErhg5QKBgQDH\n+BlTD0JKDu/baxU5cIvegaFWOMoT6ZDMrbNcrTCUsnPVngh/cPHmK2tdhxAwlWgu\nvP/apa0J2JaIxrU8t05iIBrdv8qHa8hSWHJRAf06/riVIdPApnazodKeh9aE8+rv\nPV1/R79v6wFqkpCoAzmF0xVsCr5FP74K7WllCltIKQKBgEqdOc4k8rwUe+0DMdfL\nv4U9vvMk9ljU3AGS45X/a71SnLJC+2GsdeI2XOdIb55V08jtDGIdvI25P4SR5fr0\nF/PksZkvAyd5IU6D5TK44efGCCaGzee43ejeOSvYLWiijw0wtqmkJbWMOhxrvquh\nbyDOVWj8976gCJsKvL1d/s2j\n-----END PRIVATE KEY-----\n",
+  "client_email": "bot-rifas@respaldosrifas.iam.gserviceaccount.com",
+  "client_id": "102916830463010657525",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/bot-rifas%40respaldosrifas.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
