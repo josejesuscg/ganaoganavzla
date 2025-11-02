@@ -568,7 +568,7 @@ async def enviar_teclado_numeros(send_func, user_id: int, page: int = 0):
         # Preparar mensaje
         total = len(sel)
         mensaje = (
-            f"🎰 *SELECCIÓN DE NÚMEROS* 🎰\n\n"
+            f"🎰 *SELECCIONA TUS NÚMEROS* 🎰\n\n"
             f"🔢 Elige {sistema.formato_numero.format(sistema.min_num)}–{sistema.formato_numero.format(sistema.max_num)}:\n"
             "✅ = seleccionado   ❌ = no disponible\n\n"
             f"📌 *Números seleccionados:* {', '.join(sel) if sel else 'Ninguno'}\n"
@@ -607,7 +607,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not nums:
             return await q.answer("❗ Selecciona al menos un número.", show_alert=True)
         await q.edit_message_text(
-            f"✅ Has elegido: {', '.join(nums)}\n📥 Ahora envía tu nombre completo.",
+            f"✅ Has elegido: {', '.join(nums)}\n\n📥 Excelente elección. Para formalizar su participación, ingrese su nombre completo:\n\n",
             parse_mode="Markdown"
         )
         sistema.esperando_dato[uid] = "nombre"
@@ -936,7 +936,7 @@ async def recolectar_datos(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sistema.user_datos[uid]["nombre"] = txt
         sistema.esperando_dato[uid] = "telefono"
         return await update.message.reply_text(
-            "📞 Ahora ingresa tu teléfono (ej. +57 300 123 4567):")
+            "📞 Información de contacto\n\nEste dato será utilizado exclusivamente para notificaciones sobre la rifa.\n\n Ingrese su número con código país (ej: +58 416 123 4567):")
 
     if campo == "telefono":
         txt = re.sub(r"\s+", " ", txt)
@@ -946,32 +946,50 @@ async def recolectar_datos(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sistema.user_datos[uid]["telefono"] = txt
         sistema.esperando_dato[uid] = "cedula"
         return await update.message.reply_text(
-            "🪪 Ahora ingresa tu cédula (solo letras, números, puntos o guiones):"
+            "🪪 Verificación de identidad\n\nProporcione su número de cédula/DNI para validación oficial (solo caracteres alfanuméricos, puntos y guiones):"
         )
 
     if campo == "cedula":
         txt = txt.replace(" ", "")
         if not cedula_valida(txt):
             return await update.message.reply_text(
-                "❗ Cédula inválida. Solo letras, números, puntos o guiones.")
+                "❗ Cédula o DNI inválida. Solo letras, números, puntos o guiones.")
         sistema.user_datos[uid]["cedula"] = txt
         sistema.esperando_dato[uid] = None
 
+
+        # Calcular el monto total basado en la cantidad de números seleccionados
+        datos_usuario = sistema.user_datos.get(uid, {})
+        numeros_seleccionados = datos_usuario.get("numeros", [])
+        cantidad_numeros = len(numeros_seleccionados)
+        monto_total = cantidad_numeros * sistema.precio_global
+
+        
         # Mostrar instrucciones para el pago y solicitar imagen
-        mensaje = ("📌 *INSTRUCCIONES PARA EL PAGO* 📌\n\n"
-                   "✅ *PROCEDIMIENTO* ✅\n\n"
-                   "1. Realiza la transferencia\n"
-                   "2. Toma una foto CLARA del comprobante\n"
-                   "3. Envíanos la foto en este chat\n\n"
-                   "💳 *DATOS BANCARIOS* 💳\n"
-                   "🏦 **Banco:** 0105 Mercantil\n"
-                   "📱 **Pago Móvil:** 0412-1947041\n"
-                   "🔢 **Cédula:** 26.947.987\n\n"
-                   
-                   "⚠️ *IMPORTANTE* ⚠️\n"
-                   "• Verifica bien los datos antes de enviar\n"
-                   "• El comprobante debe ser legible")
+        mensaje = (
+            "📌 *INSTRUCCIONES DE PAGO* 📌\n\n"
+           
+            "Para realizar su pago en USDT mediante BINANCE* .\n\n"
+            "✅ *PASOS A SEGUIR* ✅\n"
+            f"Has seleccionado *{cantidad_numeros} número(s)*.\n\n"
+            "1️⃣ Abra su aplicación de Binance y seleccione *Enviar a otro usuario Binance*.\n\n"
+            "2️⃣ En lugar de correo electrónico, ingrese el *ID único* que identificará nuestra cuenta.\n\n"
+            f"3️⃣ Introduzca el monto exacto de su transacción en USDT*.\n\n"
+            "4️⃣ Confirme y realice la transferencia.\n\n"
+            "5️⃣ Tome una foto clara o captura de pantalla de su comprobante.\n\n"
+            "6️⃣ Envíe la imagen en este chat para validar su pago.\n\n"
+            "💳 *DATOS DE PAGO PARA USUARIOS BINANCE* 💳\n"           
+            f"💰 *Monto a pagar: {monto_total:.2f} USD* 💰\n\n"
+            "🏦 *ID de Binance Pay:* `196461315`\n\n"
+            "📌 *Nota:* Mantenga presionado el número del ID para copiarlo fácilmente en su teléfono.\n\n"
+            "⚠️ *IMPORTANTE* ⚠️\n"
+            "• Verifique que el ID sea correcto antes de enviar.\n"
+            "• Asegúrese de que el comprobante sea legible.\n\n"
+            "✨ Gracias por su confianza. Su pago será verificado y confirmado a la brevedad."
+        )
+
         await update.message.reply_text(mensaje, parse_mode="Markdown")
+
 
 @requiere_activado
 async def manejar_imagen_comprobante(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -1178,17 +1196,42 @@ async def finalizar_verificacion_nuevo_ticket(update: Update, context: ContextTy
 
     # 3) Notificar usuario y actualizar mensaje admin
     try:
+        from datetime import datetime, timedelta
+        fecha_ven = datetime.now() - timedelta(hours=4)  # UTC-4 Venezuela
+        fecha = fecha_ven.strftime("%d/%m/%Y %H:%M:%S")
+
+        datos_txt = (
+            f"🎫 *Ticket:* `{ticket_id}`\n"
+            f"👤 *Nombre:* {pendiente.get('nombre', 'N/A')}\n"
+            f"📞 *Teléfono:* {pendiente.get('telefono', 'N/A')}\n"
+            f"🪪 *Cédula:* {pendiente.get('cedula', 'N/A')}\n"
+            f"🔢 *Números:* {', '.join(pendiente['numeros'])}\n"
+            f"📅 *Fecha:* {fecha}\n"
+        )
+
         if accion == "verificar":
-            await context.bot.send_message(chat_id=pendiente["user_id"],
-                                           text=f"✅ Tu pago ha sido verificado. Ticket `{ticket_id}`.",
-                                           parse_mode="Markdown")
+            msg_user = (
+                "✅ *PAGO VERIFICADO*\n\n"
+                f"{datos_txt}\n"
+                "📌 Su participación ha sido confirmada. ¡Mucha suerte en el sorteo! 🍀"
+            )
         else:
-            await context.bot.send_message(chat_id=pendiente["user_id"],
-                                           text=f"❌ Tu pago no pudo ser verificado. Ticket `{ticket_id}`.",
-                                           parse_mode="Markdown")
+            msg_user = (
+                "❌ *PAGO NO VERIFICADO*\n\n"
+                f"{datos_txt}\n"
+                "⚠️ Verifique su comprobante y vuelva a intentarlo o contacte al administrador en el canal."
+            )
+
+        await context.bot.send_message(
+            chat_id=pendiente["user_id"],
+            text=msg_user,
+            parse_mode="Markdown"
+        )
+
     except Exception as e:
         logger.warning(f"No se pudo notificar al usuario: {e}")
 
+    # 4) Resumen para el admin
     try:
         resumen = (f"🎫 Ticket: `{ticket_id}`\n"
                    f"👤 Usuario: @{pendiente.get('username') or pendiente.get('nombre')}\n"
@@ -1197,7 +1240,6 @@ async def finalizar_verificacion_nuevo_ticket(update: Update, context: ContextTy
         await q.edit_message_caption(caption=resumen, parse_mode="Markdown", reply_markup=None)
     except Exception as e:
         logger.warning(f"No se pudo editar mensaje admin: {e}")
-
 
 
 #---------------------------------------------------------------
